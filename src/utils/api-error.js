@@ -20,5 +20,5 @@ class ApiError extends Error{
         
     }
 }
-export {ApiResponse};
+export {ApiError};
 // thsi much of code is common to all
