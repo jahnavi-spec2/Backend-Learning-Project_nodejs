@@ -44,7 +44,7 @@ catch(error){
 }
 }
 // 1st step after importing gmail is to wriet a conttent to generate email and a body 
-const emailVerificatonMailgenContent=(username, verificationUrl) => { 
+const emailVerificationMailgenContent=(username, verificationUrl) => { 
     // username and verifiaaction  email given by user
 return{
     body:{
@@ -92,4 +92,4 @@ return{
 }
 
 
-export {emailVerificatonMailgenContent,forgotPasswordMailgenContent,sendEmail};
+export {emailVerificationMailgenContent,forgotPasswordMailgenContent,sendEmail};

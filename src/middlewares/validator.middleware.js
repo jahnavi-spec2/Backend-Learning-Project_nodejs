@@ -3,6 +3,7 @@ import {ApiError} from "../utils/api-error.js ";
 
 
 
+
 export const validate= (req,res,next)=>{
     const errors= validationResult(req);// the validationresult is provided from express-validator
     if(errors.isEmpty()){
@@ -10,7 +11,7 @@ export const validate= (req,res,next)=>{
     }
     const extractedErrors =[];
     errors.array().map((err)=>
-    extractedErrors.push({// extract the errors nd throw it out
+    extractedErrors.push({
         [err.path]: err.msg,
         })
     

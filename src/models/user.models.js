@@ -51,6 +51,9 @@ const userSchema= new Schema(
          forgotPasswordExpiry:{
             type:Date
          },
+         emailVerificationToken:{
+            type:String
+         },
          emailVerificationExpiry:{
             type:Date
          },
@@ -63,7 +66,8 @@ const userSchema= new Schema(
 // i want tpoo attach pre hook toh this schema and thn on applying save fnc ...we will use it thn call or pass to next hook 
 userSchema.pre("save", async function(next){
 
-   if (!this.isModified("password")) return next ();// if this is not getting modified i will return next...i mean iwont do anything
+   if (!this.isModified("password")) 
+      return ;// if this is not getting modified i will return next...i mean iwont do anything
    this.password=await bcrypt.hash(this.password, 10);// wht data i want to have and how many rounds ineed to hash 
    //  once i m done i moove on next bt note we dont save...
 });
@@ -112,7 +116,7 @@ userSchema.methods.generateTemporaryToken= function (){// used for verifying the
 
 //ENCRYPTING THE INFO
    const hashedToken= crypto// whtever is generated 
-   .createHash("eudba23")//name of algo we want to use inside bracket
+   .createHash("sha256")//name of algo we want to use inside bracket
    .update(unhashedToken)// which uwant to hash
    .digest("hex")
    // we need to pass this token nd give some expiry...whenver we use to send this method in any controller...it will return us teh data
