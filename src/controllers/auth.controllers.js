@@ -55,7 +55,7 @@ const registerUser= asyncHandler(async (req,res)=>{
         throw new ApiError(409," User with email or username already exists", [])
     }
 
-    const user=await User.create({// if the user does not exits add it to the dB
+    const user=await User.create({// if the user does not exist add it to the dB
         email, //i want to send some emails to teh user 
         password,
         username,
@@ -182,6 +182,8 @@ return res// we send response where only cookies needs to be removed
 });
 
 const getCurrentUser= asyncHandler(async (req,res)=>{
+
+
     return res
     .status(200)
     .json(
@@ -203,7 +205,7 @@ const verifyEmail=asyncHandler(async (req,res)=>{
     update(verificationToken)
     .digest("hex")// wiil give the same hTas stored in DBb
 
-const user=await User.findOne({//these are the condn to be taken care of if not thn error
+const user=await User.findOne({
     emailVerificationToken: hashedToken,
     emailVerificationExpiry: {$gt:Date.now()}// we check if the token has not expired as it wont be of any use
 })
@@ -230,10 +232,10 @@ return res
 });
 
 const resendEmailVerification= asyncHandler(async (req,res)=>{
-    const user= await User.findById(req.user?._id);// finding and storing user ka detail from req.id if it can give
+    const user= await User.findById(req.user?._id);/// alr logged in
 
     if(!user){
- throw new ApiError(404, "User does not exist")
+         throw new ApiError(404, "User does not exist")
     }
 
     if(user.isEmailVerified){
@@ -255,7 +257,7 @@ user.emailVerificationExpiry= tokenExpiry
 
         ),
         });
-    // well if not verified we need to verify again and repeat the process
+    
 
     return res
     .status(200)
@@ -263,12 +265,14 @@ user.emailVerificationExpiry= tokenExpiry
         new ApiResponse(
             200,
             {},
-                "Mail has been sent to your email"
+                "Mail has been resent to your email"
             
         )
     )
 });
 
+
+//browesre sends RT--Verify JWT--find user--comparre refreshtoken with DB --generate new AT--gen new RT --replae old RT IN DB---Ssend both back
 const refreshAccessToken= asyncHandler(async (req,res)=>{
 const incomingRefreshToken= req.cookies.refreshToken || req.body.refreshToken
 

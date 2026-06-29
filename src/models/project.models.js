@@ -4,21 +4,21 @@ const projectSchema= new Schema(
    name: {
     type:String,
     required:true,
-    uniques:true,
+    unique:true,
     trim:true,
    },
    desription: {
     type:String
    },
    createdBy:{
-    type: Schema.Types.ObjectId,// will provide the details of teh user via another schems using objid
+    type: Schema.Types.ObjectId,
     ref:"User",
     required:true
    }
 
 },
 {
-    timespan:true
+    timestamps:true
 })
 
 export const Project=mongoose.mode("Project",projectSchema);
